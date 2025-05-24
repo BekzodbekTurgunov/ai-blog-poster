@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Channel {
+  id        String   @id @default(cuid())
+  name      String
+  username  String
+  chatId    String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  messageId   String
+  channelId   String
+  content     String
+  authorName  String?
+  mediaUrls   String[]
+  isUsed      Boolean   @default(false)
+  summaryId   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  channel     Channel   @relation(fields: [channelId], references: [id])
+  summary     Summary?  @relation(fields: [summaryId], references: [id])
+
+  @@unique([channelId, messageId])
+}
+
+model Summary {
+  id               String   @id @default(cuid())
+  title            String
+  content          String
+  posts            Post[]
+  isPosted         Boolean  @default(false)
+  targetChannelId  String?
+  postedMessageId  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Config {
+  id                String   @id @default(cuid())
+  key               String   @unique
+  value             String
+  description       String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}

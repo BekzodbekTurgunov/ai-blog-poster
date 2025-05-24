@@ -1,0 +1,41 @@
+{
+  "name": "ai-blog-poster",
+  "version": "1.0.0",
+  "description": "Telegram channel listener and AI-powered blog post summarizer",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js",
+    "setup-session": "node src/utils/sessionGenerator.js",
+    "db:generate": "npx prisma generate",
+    "db:push": "npx prisma db push",
+    "db:migrate": "npx prisma migrate dev",
+    "db:studio": "npx prisma studio",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "telegram",
+    "ai",
+    "blog",
+    "summarization",
+    "openai",
+    "automation",
+    "cron"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "dotenv": "^16.5.0",
+    "grammy": "^1.36.1",
+    "node-cron": "^4.0.7",
+    "node-telegram-bot-api": "^0.66.0",
+    "nodejs-telegram-bot-api": "^1.0.3",
+    "openai": "^4.103.0",
+    "prisma": "^6.8.2",
+    "telegram": "^2.26.22"
+  }
+}
