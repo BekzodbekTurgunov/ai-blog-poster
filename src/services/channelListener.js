@@ -151,14 +151,21 @@ class ChannelListener {
     // Skip empty messages
     if (!text.trim()) return false;
     
-    // Skip very short messages (less than 20 characters)
-    if (text.length < 20) return false;
+    // Skip very short messages (less than 50 characters for meaningful content)
+    if (text.length < 50) return false;
     
     // Skip messages that are just links
     if (text.match(/^https?:\/\/\S+$/)) return false;
     
     // Skip messages with only emojis
     if (text.match(/^[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]+$/u)) {
+      return false;
+    }
+    
+    // Skip messages that are mostly numbers or symbols
+    const textWithoutSpaces = text.replace(/\s+/g, '');
+    const letterCount = (textWithoutSpaces.match(/[a-zA-Zа-яёА-ЯЁўқғҳОЎҚҒҲ]/g) || []).length;
+    if (letterCount < textWithoutSpaces.length * 0.6) {
       return false;
     }
     

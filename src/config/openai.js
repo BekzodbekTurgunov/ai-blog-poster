@@ -13,7 +13,7 @@ class AIService {
       }).join('\n\n');
 
       const prompt = `
-Siz 15 yillik tajribaga ega professional tech blog editorsiz va content strategisiz. Sizning vazifangiz - telegram kanallaridan kelgan postlarni chuqur tahlil qilib, yuqori sifatli, ma'noli va qo'shimcha qiymat beradigan blog post yaratish.
+Siz 15 yillik tajribaga ega professional tech blog editorsiz va content strategisiz. Sizning vazifangiz - telegram kanallaridan kelgan postlarni chuqur tahlil qilib, yuqori sifatli, qiziqarli va to'liq ma'lumotli blog post yaratish.
 
 MUHIM: Faqat ma'noli, foydali va qiziqarli content yarating. Agar postlarda yetarlicha ma'lumot yoki context yo'q bo'lsa, "SKIP" deb javob bering.
 
@@ -22,22 +22,24 @@ ${postsText}
 
 PROFESSIONAL STANDARTLAR:
 1. Har bir postni chuqur tahlil qiling - nima haqida, nimaga foydali, qanday ahamiyatga ega
-2. Faqat ta'lim beruvchi, ilhomlantiruvchi yoki amaliy qiymat beradigan content yarating
+2. Muhim linklar, kanallar, loyiha nomlari, qadamlarni ALBATTA qo'shing
 3. Agar postlar oddiy takroriy ma'lumot yoki mazmunsiz bo'lsa - "SKIP" deb javob bering
 4. Technical detallarni oddiy tilga tarjima qiling
-5. Real hayotdagi qo'llanishini ko'rsating
+5. Konkret amaliy qadamlar va yo'l-yo'riqlar bering
+6. Mazmunni to'liq saqlab qoling - muhim detallarni qoldirmang
 
 CONTENT TALABLARI:
 - O'zbek tilida professional darajada yozing
-- 250-400 so'z oralig'ida (qisqa emas, batafsil)
-- Aniq faktlar va ma'lumotlar bering
-- Amaliy maslahatlar qo'shing
+- Mazmun to'liq bo'lsin (uzunlik muhim emas)
+- Barcha muhim faktlar, linklar, qadamlar bo'lsin
+- Amaliy maslahatlar va yo'l-yo'riqlar qo'shing
 - Vizual emoji'lar bilan boyiting
 - Relevant hashtag'lar qo'shing
+- @kanal_nomi, loyiha nomlari, linklar saqlansin
 
 FORMAT:
-Sarlavha: [Professional va qiziqarli sarlavha]
-Xulosa: [Chuqur tahlil va amaliy ma'lumotlar]
+Sarlavha: [Jozibali va aniq sarlavha]
+Xulosa: [To'liq ma'lumot, qadamlar, linklar va amaliy maslahatlar]
 
 ESLATMA: Agar content ma'nosiz yoki takroriy bo'lsa, albatta "SKIP" deb javob bering.
 `;
@@ -76,8 +78,8 @@ ESLATMA: Agar content ma'nosiz yoki takroriy bo'lsa, albatta "SKIP" deb javob be
         ? lines.slice(contentStartIndex).join('\n').replace('Xulosa:', '').trim()
         : result;
 
-      // Additional quality check
-      if (content.length < 100 || title.length < 10) {
+      // Additional quality check - only check for very minimal content
+      if (content.length < 20 || title.length < 3) {
         console.log('Generated content is too short, skipping...');
         return null;
       }
